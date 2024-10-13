@@ -16,11 +16,13 @@ class PunchController extends Controller
     // Simulate punch card using Postman
     public function simulatePunch(Request $request)
     {
-        $request->validate([
-            'guardian_id' => 'required|string',
-            'punch_type' => 'required|in:in,out',
-        ]);
-
+       
+        // $request->validate([
+        //     'guardian_id' => 'required|string',
+        //     'punch_type' => 'required|in:in,out',
+        // ]);
+        // dd('test');
+       
         // Simulating the guardian and student based on RFID card id
         $guardian = Guardian::where('guardian_id', $request->guardian_id)->first();
 
@@ -28,6 +30,7 @@ class PunchController extends Controller
         if (!$guardian) {
             return response()->json(['error' => 'Guardian not found'], 404);
         }
+        
       
         $student = User::find($guardian->user_id);
 
@@ -37,7 +40,7 @@ class PunchController extends Controller
             'punch_type' => $request->punch_type,
             'punch_time' => now(),  // Adding current punch time
         ]);
-
+        
 
         // Broadcasting the punch event to the monitor
         // broadcast(new CardPunched($guardian, $student, $punch));
