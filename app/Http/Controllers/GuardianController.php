@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Guardian;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class GuardianController extends Controller
@@ -10,19 +11,21 @@ class GuardianController extends Controller
     public function index()
     {
         $guardian = Guardian::all();
+       
         return view('guardian.index', compact('guardian'));
     }
 
     public function create()
     {
-        return view('guardian.createUpdate'); // Return a form for creating a new parent
+        $students = Student::all();
+        return view('guardian.createUpdate', compact('students')); // Return a form for creating a new parent
     }
 
     public function store(Request $request)
     {
 
         $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
+            'student_id' => 'required|exists:students,student_id',
             'name' => 'required|string|max:255',
             'phone' => 'required|unique:guardians,phone',
             'email' => 'required|email|unique:guardians,email',
@@ -50,7 +53,7 @@ class GuardianController extends Controller
         $parent = Guardian::findOrFail($id);
 
         $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
+            'student_id' => 'required|exists:students,student_id',
             'name' => 'required|string|max:255',
             'phone' => 'required|unique:parents,phone,' . $parent->id,
             'email' => 'required|email|unique:parents,email,' . $parent->id,

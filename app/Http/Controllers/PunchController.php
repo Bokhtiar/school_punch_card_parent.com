@@ -6,6 +6,7 @@ use App\Models\Guardian;
 use Illuminate\Http\Request;
 use App\Events\CardPunched;
 use App\Models\Punch;
+use App\Models\Student;
 use App\Models\User;
 use Error;
 use Exception;
@@ -32,7 +33,8 @@ class PunchController extends Controller
         }
         
       
-        $student = User::find($guardian->user_id);
+        $student = Student::find($guardian->student_id);
+       
 
         // Simulate punch log creation
         $punch = Punch::create([

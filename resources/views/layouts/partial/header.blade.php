@@ -4,7 +4,7 @@
         <a href="" class="logo d-flex align-items-center">
           
                 <img src="" height="20" alt="">
-                <span class="d-none d-lg-block">name</span>
+                <span class="d-none d-lg-block">School</span>
                 
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>

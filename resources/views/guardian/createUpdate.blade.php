@@ -4,8 +4,15 @@
 <h1>Create Parent</h1>
 <form action="{{ route('guardian.store') }}" method="POST">
     @csrf
-    <label>User ID</label>
-    <input type="number" name="user_id" required>
+    <label>Select student</label>
+    <select name="student_id" id="">
+        @foreach ($students as $item)
+        <option value="{{$item->student_id}}">{{$item->last_name}}</option>    
+        @endforeach
+        
+    </select>
+
+
     <label>Name</label>
     <input type="text" name="name" required>
     <label>Phone</label>

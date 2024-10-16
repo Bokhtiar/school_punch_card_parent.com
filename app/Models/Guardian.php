@@ -11,10 +11,10 @@ class Guardian extends Model
     use HasFactory, SoftDeletes;
 
     protected $primaryKey = 'guardian_id';
-    protected $fillable = ['user_id', 'name', 'phone', 'email'];
+    protected $fillable = ['student_id', 'name', 'phone', 'email'];
 
-    public function user()
+    public function student()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Student::class, 'student_id', 'student_id');
     }
 }

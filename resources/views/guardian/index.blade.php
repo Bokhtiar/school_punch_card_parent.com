@@ -6,8 +6,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>User ID</th>
+            <th>Student</th>
             <th>Name</th>
             <th>Phone</th>
             <th>Email</th>
@@ -17,8 +16,7 @@
     <tbody>
         @foreach($guardian as $parent)
         <tr>
-            <td>{{ $parent->id }}</td>
-            <td>{{ $parent->user_id }}</td>
+            <td>{{ $parent->student->last_name }}</td>
             <td>{{ $parent->name }}</td>
             <td>{{ $parent->phone }}</td>
             <td>{{ $parent->email }}</td>

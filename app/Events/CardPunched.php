@@ -4,6 +4,7 @@ namespace App\Events;
 
 use App\Models\Guardian;
 use App\Models\Punch;
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -28,7 +29,7 @@ class CardPunched implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(Guardian $guardian, User $student, Punch $punch)
+    public function __construct(Guardian $guardian, Student $student, Punch $punch)
     {
         //  dd($punch);
         $this->guardian = $guardian;
@@ -73,7 +74,10 @@ class CardPunched implements ShouldBroadcast
             ],
             'student' => [
                 'id' => $this->student->id,
-                'name' => $this->student->name,
+                'name' => $this->student->first_name,
+                'profile_pic' => $this->student->profile_pic,
+                'class' => $this->student->class,
+                'roll_no' => $this->student->roll_no,
             ],
             'punch' => [
                 'id' => $this->punch->punch_id,
