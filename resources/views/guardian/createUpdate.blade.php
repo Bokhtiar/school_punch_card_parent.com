@@ -23,7 +23,7 @@
             <section class="py-3">
                 <div class="container">
                     <form
-                        action="{{ isset($guardian) ? route('guardian.update', $guardian->id) : route('guardian.store') }}"
+                        action="{{ isset($guardian) ? route('guardian.update', $guardian->guardian_id) : route('guardian.store') }}"
                         method="POST" enctype="multipart/form-data">
                         @csrf
 

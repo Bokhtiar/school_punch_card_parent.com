@@ -53,8 +53,8 @@ class GuardianController extends Controller
     public function edit($id)
     {
         $students = Student::all();
-        $parent = Guardian::findOrFail($id);
-        return view('guardian.createUpdate', compact('parent', 'students'));
+        $guardian = Guardian::findOrFail($id);
+        return view('guardian.createUpdate', compact('guardian', 'students'));
     }
 
     public function update(GuardianRequest $request, Guardian $guardian)
@@ -63,10 +63,8 @@ class GuardianController extends Controller
         // Handle file upload if profile pic exists
         if ($request->hasFile('profile_pic')) {
             $file = $request->file('profile_pic');
-            // Define storage path and file name
             $storagePath = 'images/guardians';
             $fileName = time() . '.' . $file->getClientOriginalExtension();
-            // Use ImageHelpers to resize and save the image
             $image = ImageHelpers::resizeImage($file);
             $path = ImageHelpers::saveImage($image, $storagePath, $fileName);
             $input['profile_pic'] = $path;
