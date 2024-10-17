@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StudentRequest extends FormRequest
 {
@@ -21,6 +22,7 @@ class StudentRequest extends FormRequest
      */
     public function rules(): array
     {
+        $studentId = $this->route('student');
         return [
             'first_name' => 'required|string|max:255',
             'last_name'  => 'required|string|max:255',
@@ -31,7 +33,13 @@ class StudentRequest extends FormRequest
             'address'    => 'required|string',
             'dob'        => 'required|date',
             'profile_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'email'      => 'required|string|email|max:255|unique:students,email',
+            'email'       => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('students', 'email')->ignore($studentId), // Ignore current student's email when updating
+            ],
         ];
     }
 }

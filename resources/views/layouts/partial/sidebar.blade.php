@@ -9,21 +9,33 @@
         </li><!-- End Dashboard Nav -->
 
         <li class="nav-item">
-            <a class="nav-link" href="@route('student.index')">
-                <i class="bi bi-grid"></i>
-                <span>Student</span> 
+            <a class="nav-link collapsed" data-bs-target="#forms-student" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-journal-text"></i><span>Student</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-        </li><!-- End billing Nav -->
+            <ul id="forms-student" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="@route('student.index')">
+                        <i class="bi bi-circle"></i><span>Student</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="@route('student.create')">
+                        <i class="bi bi-circle"></i><span>Create student</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Forms Nav -->
+
 
         <li class="nav-item">
             <a class="nav-link" href="@route('guardian.index')">
                 <i class="bi bi-grid"></i>
-                <span>Guardian</span> 
+                <span>Guardian</span>
             </a>
         </li><!-- End billing Nav -->
 
         <li class="nav-item">
-            <a class="nav-link" href="{{url('monitor')}}">
+            <a class="nav-link" href="{{ url('monitor') }}">
                 <i class="bi bi-grid"></i>
                 <span>Monitor</span>
             </a>

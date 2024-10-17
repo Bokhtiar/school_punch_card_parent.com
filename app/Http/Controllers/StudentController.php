@@ -11,9 +11,10 @@ class StudentController extends Controller
 {
     public function index()
     {
-        $students = Student::all();
+        $students = Student::latest()->paginate(10); // You can set the number of records per page (e.g., 10)
         return view('students.index', compact('students'));
     }
+
 
     public function create()
     {
@@ -50,26 +51,34 @@ class StudentController extends Controller
 
     public function edit(Student $student)
     {
-        return view('students.edit', compact('student'));
+        return view('students.createUpdate', compact('student'));
     }
 
     public function update(StudentRequest $request, Student $student)
     {
         $input = $request->all();
+        // Handle file upload if profile pic exists
         if ($request->hasFile('profile_pic')) {
-            $imageName = time() . '.' . $request->profile_pic->extension();
-            $request->profile_pic->move(public_path('images'), $imageName);
-            $input['profile_pic'] = $imageName;
+            $file = $request->file('profile_pic');
+            // Define storage path and file name
+            $storagePath = 'images/students';
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            // Use ImageHelpers to resize and save the image
+            $image = ImageHelpers::resizeImage($file);
+            $path = ImageHelpers::saveImage($image, $storagePath, $fileName);
+            $input['profile_pic'] = $path;
+        }else{
+            $input['profile_pic'] = $student->profile_pic;
         }
 
         $student->update($input);
 
-        return redirect()->route('students.index')->with('success', 'Student updated successfully.');
+        return redirect()->route('student.index')->with('success', 'Student updated successfully.');
     }
 
     public function destroy(Student $student)
     {
         $student->delete();
-        return redirect()->route('students.index')->with('success', 'Student deleted successfully.');
+        return redirect()->route('student.index')->with('success', 'Student deleted successfully.');
     }
 }
