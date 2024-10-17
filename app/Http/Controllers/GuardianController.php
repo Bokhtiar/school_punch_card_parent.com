@@ -2,36 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ImageHelpers;
+use App\Http\Requests\GuardianRequest;
 use App\Models\Guardian;
 use App\Models\Student;
-use Illuminate\Http\Request;
 
 class GuardianController extends Controller
 {
     public function index()
     {
-        $guardian = Guardian::all();
-       
+        $guardian = Guardian::latest()->paginate(10);
         return view('guardian.index', compact('guardian'));
     }
 
     public function create()
     {
         $students = Student::all();
-        return view('guardian.createUpdate', compact('students')); // Return a form for creating a new parent
+        return view('guardian.createUpdate', compact('students'));
     }
 
-    public function store(Request $request)
+    public function store(GuardianRequest $request)
     {
+        // Get all input data
+        $input = $request->all();
 
-        $validated = $request->validate([
-            'student_id' => 'required|exists:students,student_id',
-            'name' => 'required|string|max:255',
-            'phone' => 'required|unique:guardians,phone',
-            'email' => 'required|email|unique:guardians,email',
-        ]);
+        // Handle file upload if profile pic exists
+        if ($request->hasFile('profile_pic')) {
+            $file = $request->file('profile_pic');
+            // Define storage path and file name
+            $storagePath = 'images/guardians';
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            // Use ImageHelpers to resize and save the image
+            $image = ImageHelpers::resizeImage($file);
+            $path = ImageHelpers::saveImage($image, $storagePath, $fileName);
+            $input['profile_pic'] = $path;
+        }
 
-        Guardian::create($validated);
+        // Create the student record
+        Guardian::create($input);
 
         return redirect()->route('guardian.index')->with('success', 'Guardian created successfully.');
     }
@@ -44,23 +52,29 @@ class GuardianController extends Controller
 
     public function edit($id)
     {
+        $students = Student::all();
         $parent = Guardian::findOrFail($id);
-        return view('guardian.edit', compact('parent'));
+        return view('guardian.createUpdate', compact('parent', 'students'));
     }
 
-    public function update(Request $request, $id)
+    public function update(GuardianRequest $request, Guardian $guardian)
     {
-        $parent = Guardian::findOrFail($id);
+        $input = $request->all();
+        // Handle file upload if profile pic exists
+        if ($request->hasFile('profile_pic')) {
+            $file = $request->file('profile_pic');
+            // Define storage path and file name
+            $storagePath = 'images/guardians';
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            // Use ImageHelpers to resize and save the image
+            $image = ImageHelpers::resizeImage($file);
+            $path = ImageHelpers::saveImage($image, $storagePath, $fileName);
+            $input['profile_pic'] = $path;
+        } else {
+            $input['profile_pic'] = $guardian->profile_pic;
+        }
 
-        $validated = $request->validate([
-            'student_id' => 'required|exists:students,student_id',
-            'name' => 'required|string|max:255',
-            'phone' => 'required|unique:parents,phone,' . $parent->id,
-            'email' => 'required|email|unique:parents,email,' . $parent->id,
-        ]);
-
-        $parent->update($validated);
-
+        $guardian->update($input);
         return redirect()->route('guardian.index')->with('success', 'Parent updated successfully.');
     }
 
@@ -68,7 +82,6 @@ class GuardianController extends Controller
     {
         $parent = Guardian::findOrFail($id);
         $parent->delete();
-
         return redirect()->route('guardian.index')->with('success', 'Parent deleted successfully.');
     }
 }

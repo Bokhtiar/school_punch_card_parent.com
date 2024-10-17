@@ -11,7 +11,7 @@ class Guardian extends Model
     use HasFactory, SoftDeletes;
 
     protected $primaryKey = 'guardian_id';
-    protected $fillable = ['student_id', 'name', 'phone', 'email'];
+    protected $fillable = ['student_id', 'name', 'phone', 'email', 'profile_pic'];
 
     public function student()
     {

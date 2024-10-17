@@ -33,7 +33,7 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>Profile Image</th>
+                                        <th>Image</th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
                                         <th>Class</th>
