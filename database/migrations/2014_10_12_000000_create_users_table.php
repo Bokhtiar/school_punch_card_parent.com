@@ -17,12 +17,17 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('text_password');
+            $table->string('role');
+            $table->string('profile_pic')->nullable();
+            $table->integer('created_by');
+            $table->integer('updated_by')->nullable();
+            $table->integer('phone')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
         });
     }
-
     /**
      * Reverse the migrations.
      */

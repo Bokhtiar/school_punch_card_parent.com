@@ -10,7 +10,13 @@
             </ol>
         </nav>
     </div><!-- End Page Title -->
-
+ @if ($errors->any())
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        @endif
 
     <div class="my-2 d-flex justify-content-between align-items-center shadow bg-white p-2 rounded align-items-center">
         <h4 class="" class=""><i class="bi bi-journal-text"></i> Guardian create</h4>

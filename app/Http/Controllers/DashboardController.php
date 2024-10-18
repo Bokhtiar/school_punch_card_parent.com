@@ -11,6 +11,7 @@ class DashboardController extends Controller
 {
     public function dashboard()
     {
+         
         $students = Student::count();
         $punchIn = Punch::whereDate('punch_time', now()->toDateString())->where('punch_type', 'in')->count();
         $punchOut = Punch::whereDate('punch_time', now()->toDateString())->where('punch_type', 'out')->count();
