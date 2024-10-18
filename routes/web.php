@@ -16,10 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('/');
 
+
+Route::get('/', [App\Http\Controllers\DashboardController::class, 'dashboard'])->name('/');
 
 
 Route::get('/monitor', function () {
