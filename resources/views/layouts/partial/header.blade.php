@@ -2,10 +2,10 @@
 
     <div class="d-flex align-items-center justify-content-between">
         <a href="" class="logo d-flex align-items-center">
-          
-                <img src="" height="20" alt="">
-                <span class="d-none d-lg-block">School</span>
-                
+
+            <img src="" height="20" alt="">
+            <span class="d-none d-lg-block">School</span>
+
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -22,38 +22,44 @@
             <li class="nav-item dropdown pe-3">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    
-                    
-                    <img src="{{ asset('admin') }}/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                  
-                    <span class="d-none d-md-block dropdown-toggle ps-2">bokhtiar</span>
+
+
+                    <img src="{{ asset($user->profile_pic) }}" alt="Profile" class="rounded-circle">
+
+                    <span class="d-none d-md-block dropdown-toggle ps-2">{{ $user->name }}</span>
                 </a><!-- End Profile Iamge Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
-                        <h6>bokhtiar</h6>
+                        <h6>{{ $user->name }}</h6>
 
                     </li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
 
-                    <li>
+                    {{-- <li>
                         <a class="dropdown-item d-flex align-items-center" href="">
                             <i class="bi bi-box-arrow-right"></i>
                             <span>Profile</span>
                         </a>
-                    </li>
+                    </li> --}}
 
                     <li>
                         <hr class="dropdown-divider">
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="">
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+
+                        <a class="dropdown-item d-flex align-items-center" href="#"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="bi bi-box-arrow-right"></i>
                             <span>Sign Out</span>
                         </a>
+
                     </li>
 
                 </ul><!-- End Profile Dropdown Items -->
