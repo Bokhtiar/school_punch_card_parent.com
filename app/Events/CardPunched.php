@@ -31,7 +31,6 @@ class CardPunched implements ShouldBroadcast
      */
     public function __construct(Guardian $guardian, Student $student, Punch $punch)
     {
-        //  dd($punch);
         $this->guardian = $guardian;
         $this->student = $student;
         $this->punch = $punch;
@@ -46,13 +45,11 @@ class CardPunched implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        // dd('test ch');
         return new Channel('card-punches');
     }
 
     public function broadcastAs()
     {
-        // dd('test as');
         return 'card.punched'; // This should match
     }
     
@@ -61,16 +58,13 @@ class CardPunched implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        // dd('test with');
-        // return [
-        //     'guardian' => $this->guardian,
-        //     'student' => $this->student,
-        //     'punch' => $this->punch,
-        // ];
         return [
             'guardian' => [
                 'id' => $this->guardian->guardian_id,
                 'name' => $this->guardian->name,
+                'email' => $this->guardian->email,
+                'phone' => $this->guardian->phone,
+                'profile_pic' => $this->guardian->profile_pic,
             ],
             'student' => [
                 'id' => $this->student->id,
@@ -82,6 +76,7 @@ class CardPunched implements ShouldBroadcast
             'punch' => [
                 'id' => $this->punch->punch_id,
                 'punch_time' => $this->punch->punch_time,
+                'punch_type' => $this->punch->punch_type,
             ],
         ];
 

@@ -34,15 +34,38 @@ class PunchController extends Controller
         
       
         $student = Student::find($guardian->student_id);
-       
 
-        // Simulate punch log creation
-        $punch = Punch::create([
-            'guardian_id' => $guardian->guardian_id,
-            'punch_type' => $request->punch_type,
-            'punch_time' => now(),  // Adding current punch time
-        ]);
-        
+
+        // // Simulate punch log creation
+        // $punch = Punch::create([
+        //     'guardian_id' => $guardian->guardian_id,
+        //     'punch_type' => "in",
+        //     'punch_time' => now(),  // Adding current punch time
+        // ]);
+
+        // Get the current date
+        $currentDate = now()->toDateString();
+
+        // Check if there is already a punch for today
+        $existingPunch = Punch::where('guardian_id', $guardian->guardian_id)
+        ->whereDate('punch_time', $currentDate)
+        ->first();
+
+        if ($existingPunch === null) {
+            // No punch recorded for today, create the first punch as "in"
+            $punch = Punch::create([
+                'guardian_id' => $guardian->guardian_id,
+                'punch_type' => "in",  // First punch of the day is "in"
+                'punch_time' => now(),
+            ]);
+        } else {
+            // Subsequent punches will be "out"
+            $punch = Punch::create([
+                'guardian_id' => $guardian->guardian_id,
+                'punch_type' => "out",  // Subsequent punches are "out"
+                'punch_time' => now(),
+            ]);
+        }
 
         // Broadcasting the punch event to the monitor
         // broadcast(new CardPunched($guardian, $student, $punch));
@@ -56,6 +79,6 @@ class PunchController extends Controller
             throw new Exception('Error occurred while broadcasting: ' . $error->getMessage());
         }
 
-        return response()->json(['success' => 'Punch event broadcasted successfully', 'guardian' => $guardian->name, 'student' => $student->name]);
+        return response()->json(['success' => 'Punch event broadcasted successfully', 'guardian' => $guardian, 'student' => $student, 'punch' => $punch]);
     }
 }
