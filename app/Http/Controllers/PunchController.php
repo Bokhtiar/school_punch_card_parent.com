@@ -25,7 +25,7 @@ class PunchController extends Controller
         // dd('test');
        
         // Simulating the guardian and student based on RFID card id
-        $guardian = Guardian::where('guardian_id', $request->guardian_id)->first();
+        $guardian = Guardian::where('id_card_generate', $request->id_card_generate)->first();
 
 
         if (!$guardian) {

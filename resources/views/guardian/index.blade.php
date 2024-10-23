@@ -29,7 +29,8 @@
                             <thead>
                                 <tr>
                                     <th>Image</th>
-                                    <th>Student Name</th>
+                                    <th>Guridain id num</th>
+                                      <th>Student Name</th>
                                     <th>Guardian Name</th>
                                     <th>Phone</th>
                                     <th>Email</th>
@@ -43,6 +44,7 @@
                                             <img class="rounded-circle" height="50" width="50"
                                                     src="{{ asset($parent->profile_pic) }}" alt="">
                                         </td>
+                                         <td>{{ $parent->id_card_generate }}</td>
                                         <td>{{ $parent->student->first_name }} {{ $parent->student->last_name }}</td>
                                         <td>{{ $parent->name }}</td>
                                         <td>{{ $parent->phone }}</td>

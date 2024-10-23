@@ -57,6 +57,12 @@
                                 <input type="text" name="name" class="form-control" required
                                     value="{{ isset($guardian) ? $guardian->name : old('name') }}">
                             </div>
+
+                             <div class="col-md-12">
+                                <label for="name" class="form-label">Id Card Generate</label>
+                                <input type="text" name="id_card_generate" class="form-control" required
+                                    value="{{ isset($guardian) ? $guardian->id_card_generate : old('id_card_generate') }}">
+                            </div>
                         </div>
 
                         <!-- Phone and Email (Two inputs in one row) -->

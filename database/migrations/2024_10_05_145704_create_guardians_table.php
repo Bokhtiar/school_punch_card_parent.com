@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('student_id');
             $table->string('name');
             $table->string('phone')->unique();
+            $table->string('id_card_generate')->unique();            
             $table->string('email')->unique();
             $table->string('profile_pic')->nullable();
             $table->timestamps();
